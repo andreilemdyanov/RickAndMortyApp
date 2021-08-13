@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="?attr/colorPrimaryVariant"
+    app:cardCornerRadius="16dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="136dp"
+            android:layout_height="136dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:src="@drawable/rick" />
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-medium"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Adjudicator Rick" />
+
+        <ImageView
+            android:id="@+id/circle"
+            android:layout_width="8dp"
+            android:layout_height="8dp"
+            android:layout_marginStart="8dp"
+            android:src="@drawable/red_circle"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toTopOf="@id/status"
+            app:layout_constraintBottom_toBottomOf="@id/status"/>
+
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorOnPrimary"
+            android:layout_marginStart="4dp"
+            app:layout_constraintStart_toEndOf="@id/circle"
+            app:layout_constraintTop_toBottomOf="@id/name"
+            android:textSize="12sp"
+            tools:text="Dead - Human" />
+        <TextView
+            android:id="@+id/location_label"
+            android:layout_width="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_grey"
+            app:layout_constraintTop_toBottomOf="@id/status"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            tools:text="Last known location:"/>
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toBottomOf="@id/location_label"
+            tools:text="Citadel of Ricks" />
+        <TextView
+            android:id="@+id/seen_label"
+            android:layout_width="wrap_content"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_grey"
+            app:layout_constraintTop_toBottomOf="@id/location"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            tools:text="First seen in:"/>
+        <TextView
+            android:id="@+id/seen"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintTop_toBottomOf="@id/seen_label"
+            tools:text="The Ricklantis Mixup" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</com.google.android.material.card.MaterialCardView>
+
