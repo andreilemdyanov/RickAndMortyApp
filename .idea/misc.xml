@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/drawable/green_circle.xml" value="0.297" />
         <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/drawable/red_circle.xml" value="0.297" />
         <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/layout/activity_main.xml" value="0.43802083333333336" />
         <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/layout/fragment_character_list.xml" value="0.43802083333333336" />

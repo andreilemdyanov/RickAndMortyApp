@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="small_text">12sp</dimen>
+    <dimen name="normal_text">14sp</dimen>
+    <dimen name="large_text">18sp</dimen>
+
+    <dimen name="extra_small_margin">4dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
+
+    <dimen name="circle_size">8dp</dimen>
+    <dimen name="avatar_size">136dp</dimen>
+
+    <dimen name="card_corner">16dp</dimen>
+</resources>
