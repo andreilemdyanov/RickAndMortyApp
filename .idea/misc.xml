@@ -3,11 +3,19 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.297" />
+        <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/drawable/alive.xml" value="0.2085" />
+        <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/drawable/dead.xml" value="0.2085" />
         <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/drawable/green_circle.xml" value="0.297" />
+        <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/drawable/ic_launcher_background.xml" value="0.297" />
         <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/drawable/red_circle.xml" value="0.297" />
+        <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/drawable/unknown.xml" value="0.297" />
         <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/layout/activity_main.xml" value="0.43802083333333336" />
         <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/layout/fragment_character_list.xml" value="0.43802083333333336" />
+        <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/layout/item_error.xml" value="0.38645833333333335" />
+        <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/layout/item_progress.xml" value="0.38645833333333335" />
         <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/layout/view_holder_character.xml" value="0.43802083333333336" />
+        <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/layout/view_holder_hero.xml" value="0.38645833333333335" />
       </map>
     </option>
   </component>

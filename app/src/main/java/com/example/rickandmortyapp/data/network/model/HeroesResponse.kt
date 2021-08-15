@@ -1,8 +1,10 @@
 package com.example.rickandmortyapp.data.network.model
 
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
-data class CharacterResponse(
+@Serializable
+data class HeroesResponse(
     @SerialName("info")
     val info: InfoResponse,
     @SerialName("results")

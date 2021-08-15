@@ -38,7 +38,7 @@
             android:layout_width="@dimen/circle_size"
             android:layout_height="@dimen/circle_size"
             android:layout_marginStart="@dimen/small_margin"
-            android:src="@drawable/green_circle"
+            android:src="@drawable/alive"
             app:layout_constraintBottom_toBottomOf="@id/status"
             app:layout_constraintStart_toEndOf="@id/avatar"
             app:layout_constraintTop_toTopOf="@id/status" />
@@ -57,9 +57,9 @@
         <TextView
             android:id="@+id/location_label"
             style="@style/TextLabel"
+            android:text="@string/location_label"
             app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toBottomOf="@id/status"
-            tools:text="Last known location:" />
+            app:layout_constraintTop_toBottomOf="@id/status" />
 
         <TextView
             android:id="@+id/location"
@@ -72,9 +72,9 @@
         <TextView
             android:id="@+id/seen_label"
             style="@style/TextLabel"
+            android:text="@string/seen_label"
             app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toBottomOf="@id/location"
-            tools:text="First seen in:" />
+            app:layout_constraintTop_toBottomOf="@id/location" />
 
         <TextView
             android:id="@+id/seen"

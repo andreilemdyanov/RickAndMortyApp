@@ -1,7 +1,10 @@
 package com.example.rickandmortyapp.data.network.model
 
+import com.example.rickandmortyapp.data.model.Hero
 import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class ResultResponse(
     @SerialName("created")
     val created: String,
@@ -28,3 +31,19 @@ data class ResultResponse(
     @SerialName("url")
     val url: String
 )
+
+fun ResultResponse.toHero() =
+    Hero(
+        created,
+        episode,
+        gender,
+        id,
+        image,
+        location,
+        name,
+        origin,
+        species,
+        status,
+        type,
+        url
+    )

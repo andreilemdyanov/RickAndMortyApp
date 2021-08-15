@@ -2,9 +2,11 @@ package com.example.rickandmortyapp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.example.rickandmortyapp.view.FragmentCharacterList
+import com.example.rickandmortyapp.data.model.Hero
+import com.example.rickandmortyapp.presentation.character_list.view.FragmentCharacterList
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), FragmentCharacterList.ClickListener {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -13,10 +15,10 @@ class MainActivity : AppCompatActivity() {
                 .add(
                     R.id.fragment_container,
                     FragmentCharacterList.newInstance(),
-                    CHARACTER_FRAGMENT_TAG
+                    HEROES_FRAGMENT_TAG
                 )
                 .commit()
-        else supportFragmentManager.findFragmentByTag(CHARACTER_FRAGMENT_TAG) as? FragmentCharacterList
+        else supportFragmentManager.findFragmentByTag(HEROES_FRAGMENT_TAG) as? FragmentCharacterList
     }
 
     fun onBackClick() {
@@ -24,6 +26,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        const val CHARACTER_FRAGMENT_TAG = "characterFragment"
+        const val HEROES_FRAGMENT_TAG = "heroesFragment"
+    }
+
+    override fun onHeroDetailsClick(hero: Hero) {
+//        Log.d(this.localClassName, hero.id.toString())
     }
 }
