@@ -5,7 +5,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ResultResponse(
+data class CharacterResponse(
     @SerialName("created")
     val created: String,
     @SerialName("episode")
@@ -32,7 +32,7 @@ data class ResultResponse(
     val url: String
 )
 
-fun ResultResponse.toHero() =
+fun CharacterResponse.toHero() =
     Hero(
         created,
         episode,

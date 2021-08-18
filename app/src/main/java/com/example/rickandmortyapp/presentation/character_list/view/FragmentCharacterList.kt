@@ -10,17 +10,20 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.rickandmortyapp.R
+import com.example.rickandmortyapp.data.model.Episode
 import com.example.rickandmortyapp.data.model.Hero
+import com.example.rickandmortyapp.data.network.model.toEpisode
 import com.example.rickandmortyapp.databinding.FragmentCharacterListBinding
 import com.example.rickandmortyapp.extensions.dpToIntPx
 import com.example.rickandmortyapp.presentation.character_list.viewmodel.HeroesViewModel
-import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.*
-import kotlinx.coroutines.flow.collectLatest
-import java.net.UnknownHostException
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.Job
 
 class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
 
@@ -28,8 +31,8 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
     private val binding by viewBinding(FragmentCharacterListBinding::bind)
     private val viewModel: HeroesViewModel by activityViewModels()
     private val adapter by lazy { HeroesAdapter(clickListenerItem) }
-    private lateinit var job: Job
     private var orientationLand: Boolean = false
+    private val disposable = CompositeDisposable()
 
     private val clickListenerItem = { hero: Hero? ->
         if (hero != null)
@@ -66,27 +69,65 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        job = CoroutineScope(Dispatchers.Main).launch(CoroutineExceptionHandler { _, exception ->
-            Log.d("FragmentCharacterList", "$exception")
-            when (exception) {
-                is UnknownHostException -> Snackbar.make(
-                    binding.root,
-                    "Нет соединения с интернетом",
-                    Snackbar.LENGTH_LONG
-                ).show()
+    override fun onResume() {
+        val episodesMap = mutableMapOf<String, Episode>()
+        disposable.add(viewModel.episodes
+            .map { response ->
+                episodesMap.putAll(response.results.map {
+                    it.toEpisode(
+                        id = it.id,
+                        name = it.name,
+                        url = it.url
+                    )
+                }
+                    .associateBy { it.url })
             }
-        }) {
-            viewModel.heroes.collectLatest {
-                adapter.submitData(it)
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe())
+
+        disposable.add(viewModel.heroes
+            .map { pagingData ->
+                pagingData.map { hero ->
+                    hero.copy(episode = hero.episode.map {
+                        episodesMap[it]?.name ?: it
+                    })
+                }
             }
-        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe {
+                adapter.submitData(lifecycle, it)
+            })
+
+
+        disposable.add(viewModel.locations
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe { response ->
+                response.results.map {
+                    Log.d(
+                        "Rx",
+                        "dimension  id = ${it.id} name = ${it.dimension}"
+                    )
+                }
+            })
+        super.onResume()
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         orientationLand = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
+    }
+
+    override fun onPause() {
+        disposable.dispose()
+        super.onPause()
+    }
+
+    override fun onDestroyView() {
+        disposable.dispose()
+        super.onDestroyView()
     }
 
     override fun onDetach() {
