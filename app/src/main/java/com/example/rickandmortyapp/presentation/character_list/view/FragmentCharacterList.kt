@@ -23,7 +23,6 @@ import com.example.rickandmortyapp.presentation.character_list.viewmodel.HeroesV
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import kotlinx.coroutines.Job
 
 class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
 
@@ -35,10 +34,11 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
     private val disposable = CompositeDisposable()
 
     private val clickListenerItem = { hero: Hero? ->
-        if (hero != null)
+        if (hero != null) {
             binding.rvCharacter.let {
                 clickListener?.onHeroDetailsClick(hero)
             }
+        }
     }
 
     override fun onAttach(context: Context) {
@@ -70,7 +70,7 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
     }
 
     override fun onResume() {
-        val episodesMap = mutableMapOf<String, Episode>()
+        val episodesMap = mutableMapOf<String, Episode>() //TODO
         disposable.add(viewModel.episodes
             .map { response ->
                 episodesMap.putAll(response.results.map {
@@ -89,9 +89,10 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
         disposable.add(viewModel.heroes
             .map { pagingData ->
                 pagingData.map { hero ->
-                    hero.copy(episode = hero.episode.map {
-                        episodesMap[it]?.name ?: it
-                    })
+                    hero.copy(
+                        firstEpisode =
+                        episodesMap[hero.firstEpisode]?.name ?: hero.firstEpisode
+                    )
                 }
             }
             .subscribeOn(Schedulers.io())

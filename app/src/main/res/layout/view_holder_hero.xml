@@ -12,7 +12,7 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:id="@+id/avatar"
+            android:id="@+id/iv_avatar"
             android:layout_width="@dimen/avatar_size"
             android:layout_height="@dimen/avatar_size"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -21,7 +21,7 @@
             tools:src="@drawable/rick" />
 
         <TextView
-            android:id="@+id/name"
+            android:id="@+id/tv_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/small_margin"
@@ -30,59 +30,59 @@
             android:textColor="?attr/colorOnPrimary"
             android:textSize="@dimen/large_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/avatar"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
             app:layout_constraintTop_toTopOf="parent"
             tools:text="Adjudicator Rick" />
 
         <ImageView
-            android:id="@+id/circle"
+            android:id="@+id/iv_circle"
             android:layout_width="@dimen/circle_size"
             android:layout_height="@dimen/circle_size"
             android:layout_marginStart="@dimen/small_margin"
             android:src="@drawable/alive"
-            app:layout_constraintBottom_toBottomOf="@id/status"
-            app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toTopOf="@id/status" />
+            app:layout_constraintBottom_toBottomOf="@id/tv_status"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toTopOf="@id/tv_status" />
 
         <TextView
-            android:id="@+id/status"
+            android:id="@+id/tv_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/extra_small_margin"
             android:textColor="?attr/colorOnPrimary"
             android:textSize="@dimen/small_text"
-            app:layout_constraintStart_toEndOf="@id/circle"
-            app:layout_constraintTop_toBottomOf="@id/name"
+            app:layout_constraintStart_toEndOf="@id/iv_circle"
+            app:layout_constraintTop_toBottomOf="@id/tv_name"
             tools:text="Dead - Human" />
 
         <TextView
-            android:id="@+id/location_label"
+            android:id="@+id/tv_location_label"
             style="@style/TextLabel"
             android:text="@string/location_label"
-            app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toBottomOf="@id/status" />
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toBottomOf="@id/tv_status" />
 
         <TextView
-            android:id="@+id/location"
+            android:id="@+id/tv_location"
             style="@style/NormalText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toBottomOf="@id/location_label"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toBottomOf="@id/tv_location_label"
             tools:text="Citadel of Ricks" />
 
         <TextView
-            android:id="@+id/seen_label"
+            android:id="@+id/tv_seen_label"
             style="@style/TextLabel"
             android:text="@string/seen_label"
-            app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toBottomOf="@id/location" />
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toBottomOf="@id/tv_location" />
 
         <TextView
-            android:id="@+id/seen"
+            android:id="@+id/tv_seen"
             style="@style/NormalText"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/avatar"
-            app:layout_constraintTop_toBottomOf="@id/seen_label"
+            app:layout_constraintStart_toEndOf="@id/iv_avatar"
+            app:layout_constraintTop_toBottomOf="@id/tv_seen_label"
             tools:text="The Ricklantis Mixup" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

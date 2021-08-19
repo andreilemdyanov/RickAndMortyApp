@@ -3,5 +3,11 @@
     <string name="location_label">Last known location:</string>
     <string name="seen_label">First seen in:</string>
     <string name="status">%1$s - %2$s</string>
+    <string name="gender_details_label">Gender:</string>
+    <string name="origin_details_label">Origin:</string>
+    <string name="location_details_label">Location:</string>
+    <string name="type_details_label">Type:</string>
+    <string name="dimension_details_label">Dimension:</string>
+    <string name="episodes_details_label">Episodes:</string>
 
 </resources>

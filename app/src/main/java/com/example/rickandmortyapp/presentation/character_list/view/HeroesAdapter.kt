@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.data.model.Hero
 
-class HeroesAdapter(private val clickListenerItem: (Hero?) -> Unit?) :
+class HeroesAdapter(private val clickListenerItem: (Hero?) -> Unit) :
     PagingDataAdapter<Hero, HeroViewHolder>(HeroesDiffCallback()) {
 
     override fun onBindViewHolder(holder: HeroViewHolder, position: Int) {
@@ -30,12 +30,12 @@ class HeroesAdapter(private val clickListenerItem: (Hero?) -> Unit?) :
 class HeroViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val context = itemView.context
-    private val avatar = itemView.findViewById<ImageView>(R.id.avatar)
-    private val name = itemView.findViewById<TextView>(R.id.name)
-    private val status = itemView.findViewById<TextView>(R.id.status)
-    private val location = itemView.findViewById<TextView>(R.id.location)
-    private val seen = itemView.findViewById<TextView>(R.id.seen)
-    private val circle = itemView.findViewById<ImageView>(R.id.circle)
+    private val avatar = itemView.findViewById<ImageView>(R.id.iv_avatar)
+    private val name = itemView.findViewById<TextView>(R.id.tv_name)
+    private val status = itemView.findViewById<TextView>(R.id.tv_status)
+    private val location = itemView.findViewById<TextView>(R.id.tv_location)
+    private val seen = itemView.findViewById<TextView>(R.id.tv_seen)
+    private val circle = itemView.findViewById<ImageView>(R.id.iv_circle)
 
 
     fun bind(hero: Hero?) {
@@ -49,7 +49,7 @@ class HeroViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
             name.text = it.name
             status.text = context.getString(R.string.status, it.status, it.species)
             location.text = it.location.name
-            seen.text = it.episode.first()
+            seen.text = it.firstEpisode
 //            Log.d("HeroViewHolder", "${it.id} ${it.status}")
             when (it.status.trim()) {
                 "Alive" -> circle.setImageDrawable(

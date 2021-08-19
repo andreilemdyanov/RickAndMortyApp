@@ -3,6 +3,7 @@ package com.example.rickandmortyapp
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.rickandmortyapp.data.model.Hero
+import com.example.rickandmortyapp.presentation.character_details.view.FragmentCharacterDetails
 import com.example.rickandmortyapp.presentation.character_list.view.FragmentCharacterList
 
 class MainActivity : AppCompatActivity(), FragmentCharacterList.ClickListener {
@@ -30,6 +31,12 @@ class MainActivity : AppCompatActivity(), FragmentCharacterList.ClickListener {
     }
 
     override fun onHeroDetailsClick(hero: Hero) {
-//        Log.d(this.localClassName, hero.id.toString())
+        supportFragmentManager.beginTransaction()
+            .replace(
+                R.id.fragment_container,
+                FragmentCharacterDetails.newInstance(hero)
+            )
+            .addToBackStack(null)
+            .commit()
     }
 }

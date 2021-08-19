@@ -1,19 +1,21 @@
 package com.example.rickandmortyapp.data.model
 
-import com.example.rickandmortyapp.data.network.model.LocationResponse
-import com.example.rickandmortyapp.data.network.model.OriginResponse
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
+@Parcelize
 data class Hero(
     val created: String,
-    val episode: List<String>,
+    val firstEpisode: String,
+    val episodesCount: Int,
     val gender: String,
     val id: Int,
     val image: String,
-    val location: LocationResponse,
+    val location: Location,
     val name: String,
-    val origin: OriginResponse,
+    val origin: Origin,
     val species: String,
     val status: String,
     val type: String,
     val url: String
-)
+) : Parcelable

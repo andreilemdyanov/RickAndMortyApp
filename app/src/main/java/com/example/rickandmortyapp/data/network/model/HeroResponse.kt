@@ -34,16 +34,17 @@ data class CharacterResponse(
 
 fun CharacterResponse.toHero() =
     Hero(
-        created,
-        episode,
-        gender,
-        id,
-        image,
-        location,
-        name,
-        origin,
-        species,
-        status,
-        type,
-        url
+        created = created,
+        firstEpisode = episode.first(),
+        episodesCount = episode.size,
+        gender = gender,
+        id = id,
+        image = image,
+        location = location.toLocation(),
+        name = name,
+        origin = origin.toOrigin(),
+        species = species,
+        status = status,
+        type = type,
+        url = url
     )
