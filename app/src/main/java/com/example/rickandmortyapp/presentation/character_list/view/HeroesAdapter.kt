@@ -12,12 +12,12 @@ import com.bumptech.glide.Glide
 import com.example.rickandmortyapp.R
 import com.example.rickandmortyapp.data.model.Hero
 
-class HeroesAdapter(private val clickListenerItem: (Hero?) -> Unit) :
+class HeroesAdapter(private val clickListenerItem: (Hero) -> Unit?) :
     PagingDataAdapter<Hero, HeroViewHolder>(HeroesDiffCallback()) {
 
     override fun onBindViewHolder(holder: HeroViewHolder, position: Int) {
         holder.bind(getItem(position))
-        holder.itemView.setOnClickListener { clickListenerItem(getItem(position)) }
+        holder.itemView.setOnClickListener { getItem(position)?.let { hero -> clickListenerItem(hero) } }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HeroViewHolder {

@@ -22,8 +22,4 @@ data class EpisodeResponse(
     val created: String
 )
 
-fun EpisodeResponse.toEpisode(
-    id: Int,
-    name: String,
-    url: String
-) = Episode(id, name, url)
+fun EpisodeResponse.toEpisode() = Episode(id, name, url)

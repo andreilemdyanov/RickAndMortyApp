@@ -10,13 +10,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
-import androidx.paging.map
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.rickandmortyapp.R
-import com.example.rickandmortyapp.data.model.Episode
 import com.example.rickandmortyapp.data.model.Hero
-import com.example.rickandmortyapp.data.network.model.toEpisode
 import com.example.rickandmortyapp.databinding.FragmentCharacterListBinding
 import com.example.rickandmortyapp.extensions.dpToIntPx
 import com.example.rickandmortyapp.presentation.character_list.viewmodel.HeroesViewModel
@@ -33,11 +30,9 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
     private var orientationLand: Boolean = false
     private val disposable = CompositeDisposable()
 
-    private val clickListenerItem = { hero: Hero? ->
-        if (hero != null) {
-            binding.rvCharacter.let {
-                clickListener?.onHeroDetailsClick(hero)
-            }
+    private val clickListenerItem = { hero: Hero ->
+        binding.rvCharacter.let {
+            clickListener?.onHeroDetailsClick(hero)
         }
     }
 
@@ -70,37 +65,13 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
     }
 
     override fun onResume() {
-        val episodesMap = mutableMapOf<String, Episode>() //TODO
-        disposable.add(viewModel.episodes
-            .map { response ->
-                episodesMap.putAll(response.results.map {
-                    it.toEpisode(
-                        id = it.id,
-                        name = it.name,
-                        url = it.url
-                    )
-                }
-                    .associateBy { it.url })
-            }
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe())
-
+        super.onResume()
         disposable.add(viewModel.heroes
-            .map { pagingData ->
-                pagingData.map { hero ->
-                    hero.copy(
-                        firstEpisode =
-                        episodesMap[hero.firstEpisode]?.name ?: hero.firstEpisode
-                    )
-                }
-            }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 adapter.submitData(lifecycle, it)
             })
-
 
         disposable.add(viewModel.locations
             .subscribeOn(Schedulers.io())
@@ -113,7 +84,7 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
                     )
                 }
             })
-        super.onResume()
+
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
@@ -122,13 +93,13 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
     }
 
     override fun onPause() {
-        disposable.dispose()
         super.onPause()
+        disposable.dispose()
     }
 
     override fun onDestroyView() {
-        disposable.dispose()
         super.onDestroyView()
+        disposable.dispose()
     }
 
     override fun onDetach() {

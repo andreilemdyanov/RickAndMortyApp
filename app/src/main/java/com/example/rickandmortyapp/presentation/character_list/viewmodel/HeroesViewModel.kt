@@ -8,7 +8,6 @@ import com.example.rickandmortyapp.App
 import com.example.rickandmortyapp.data.HeroesRepository
 import com.example.rickandmortyapp.data.model.Hero
 import com.example.rickandmortyapp.data.network.RetrofitModule
-import com.example.rickandmortyapp.data.network.model.EpisodesResponse
 import com.example.rickandmortyapp.data.network.model.LocationsResponse
 import io.reactivex.Flowable
 import io.reactivex.Observable
@@ -26,11 +25,6 @@ class HeroesViewModel : ViewModel() {
 
     val heroes: Flowable<PagingData<Hero>> = repo.getHeroes()
         .cachedIn(viewModelScope)
-
-    val episodes: Observable<EpisodesResponse> = repo.getEpisodes(1)
-        .mergeWith(repo.getEpisodes(2))
-        .mergeWith(repo.getEpisodes(3))
-
 
     val locations: Observable<LocationsResponse> = repo.getLocations(1)
         .mergeWith(repo.getLocations(2))
