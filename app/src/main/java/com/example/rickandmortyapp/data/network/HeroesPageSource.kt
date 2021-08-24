@@ -1,6 +1,5 @@
 package com.example.rickandmortyapp.data.network
 
-import android.util.Log
 import androidx.paging.PagingState
 import androidx.paging.rxjava2.RxPagingSource
 import com.example.rickandmortyapp.data.model.Hero
@@ -29,6 +28,7 @@ class HeroesPageSource(private val heroesApi: HeroesApi, private val episodeApi:
             .flatMap { Observable.fromIterable(it.list) }
             .flatMap {
                 episodeApi.getEpisode(it.firstEpisode.substringAfterLast("/").toInt())
+                    .toObservable()
             }
 
         val heroes = heroesApi.fetchResultsRx(page)

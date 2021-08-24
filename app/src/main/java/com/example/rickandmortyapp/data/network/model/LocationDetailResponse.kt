@@ -1,5 +1,6 @@
 package com.example.rickandmortyapp.data.network.model
 
+import com.example.rickandmortyapp.data.model.LocationDetail
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -20,3 +21,5 @@ class LocationDetailResponse(
     @SerialName("created")
     val created: String
 )
+
+fun LocationDetailResponse.toLocationDetail() = LocationDetail(name, url, dimension)

@@ -1,11 +1,12 @@
 package com.example.rickandmortyapp.data.network.api
 
-import com.example.rickandmortyapp.data.network.model.LocationsResponse
-import io.reactivex.Observable
+import com.example.rickandmortyapp.data.network.model.LocationDetailResponse
+import io.reactivex.Single
 import retrofit2.http.GET
-import retrofit2.http.Query
+import retrofit2.http.Path
 
 interface LocationApi {
-    @GET("location")
-    fun fetchResults(@Query("page") page: Int = 1): Observable<LocationsResponse>
+
+    @GET("location/{id}")
+    fun fetchLocation(@Path("id") id: Int): Single<LocationDetailResponse>
 }

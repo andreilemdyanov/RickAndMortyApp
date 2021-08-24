@@ -3,19 +3,21 @@ package com.example.rickandmortyapp.presentation.character_list.view
 import android.content.Context
 import android.content.res.Configuration
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
+import com.example.rickandmortyapp.App
 import com.example.rickandmortyapp.R
+import com.example.rickandmortyapp.data.HeroesRepository
 import com.example.rickandmortyapp.data.model.Hero
 import com.example.rickandmortyapp.databinding.FragmentCharacterListBinding
 import com.example.rickandmortyapp.extensions.dpToIntPx
+import com.example.rickandmortyapp.presentation.character_list.viewmodel.CharacterListVMFactory
 import com.example.rickandmortyapp.presentation.character_list.viewmodel.HeroesViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -25,7 +27,8 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
 
     private var clickListener: ClickListener? = null
     private val binding by viewBinding(FragmentCharacterListBinding::bind)
-    private val viewModel: HeroesViewModel by activityViewModels()
+    lateinit var viewModelFactory: CharacterListVMFactory
+    lateinit var viewModel: HeroesViewModel
     private val adapter by lazy { HeroesAdapter(clickListenerItem) }
     private var orientationLand: Boolean = false
     private val disposable = CompositeDisposable()
@@ -44,6 +47,15 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModelFactory = CharacterListVMFactory(
+            HeroesRepository(
+                App.instance.retrofit.heroesApi,
+                App.instance.retrofit.episodeApi,
+                App.instance.retrofit.locationApi
+            )
+        )
+        viewModel = ViewModelProvider(this, viewModelFactory)
+            .get(HeroesViewModel::class.java)
         with(binding) {
             rvCharacter.adapter = adapter.withLoadStateHeaderAndFooter(
                 header = HeroesLoaderStateAdapter(),
@@ -72,19 +84,6 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
             .subscribe {
                 adapter.submitData(lifecycle, it)
             })
-
-        disposable.add(viewModel.locations
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { response ->
-                response.results.map {
-                    Log.d(
-                        "Rx",
-                        "dimension  id = ${it.id} name = ${it.dimension}"
-                    )
-                }
-            })
-
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
