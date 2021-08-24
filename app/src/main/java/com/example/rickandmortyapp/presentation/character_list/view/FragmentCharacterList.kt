@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import by.kirich1409.viewbindingdelegate.viewBinding
 import com.example.rickandmortyapp.App
 import com.example.rickandmortyapp.R
-import com.example.rickandmortyapp.data.HeroesRepository
 import com.example.rickandmortyapp.data.model.Hero
 import com.example.rickandmortyapp.databinding.FragmentCharacterListBinding
 import com.example.rickandmortyapp.extensions.dpToIntPx
@@ -22,11 +21,13 @@ import com.example.rickandmortyapp.presentation.character_list.viewmodel.HeroesV
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
 
     private var clickListener: ClickListener? = null
     private val binding by viewBinding(FragmentCharacterListBinding::bind)
+    @Inject
     lateinit var viewModelFactory: CharacterListVMFactory
     lateinit var viewModel: HeroesViewModel
     private val adapter by lazy { HeroesAdapter(clickListenerItem) }
@@ -47,13 +48,7 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModelFactory = CharacterListVMFactory(
-            HeroesRepository(
-                App.instance.retrofit.heroesApi,
-                App.instance.retrofit.episodeApi,
-                App.instance.retrofit.locationApi
-            )
-        )
+        (requireContext().applicationContext as App).appComponent.injectFragmentCharacterList(this)
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(HeroesViewModel::class.java)
         with(binding) {

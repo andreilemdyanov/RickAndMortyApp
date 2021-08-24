@@ -3,6 +3,7 @@ package com.example.rickandmortyapp.presentation.character_details.view
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
+import android.widget.ImageView
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -21,26 +22,29 @@ import com.google.android.material.snackbar.Snackbar
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import javax.inject.Inject
 
 class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
 
     private val binding by viewBinding(FragmentCharacterDetailsBinding::bind)
     lateinit var viewModelFactory: CharacterDetailsVMFactory
+
+    @Inject
+    lateinit var repository: HeroesRepository
     lateinit var viewModel: HeroesDetailsViewModel
     private val disposable = CompositeDisposable()
 
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireContext().applicationContext as App).appComponent.injectFragmentCharacterDetails(
+            this
+        )
         arguments?.apply {
             getParcelable<Hero>(HERO)?.let {
                 if (it.location.url.isNotBlank()) {
                     viewModelFactory = CharacterDetailsVMFactory(
-                        HeroesRepository(
-                            App.instance.retrofit.heroesApi,
-                            App.instance.retrofit.episodeApi,
-                            App.instance.retrofit.locationApi
-                        ), it.location.url.substringAfterLast("/").toInt()
+                        repository, it.location.url.substringAfterLast("/").toInt()
                     )
                     viewModel = ViewModelProvider(this@FragmentCharacterDetails, viewModelFactory)
                         .get(HeroesDetailsViewModel::class.java)
@@ -70,26 +74,7 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
 
                     tvStatusDetails.text =
                         requireContext().getString(R.string.status, it.status, it.species)
-                    when (it.status.trim()) {
-                        "Alive" -> ivCircleDetails.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                requireContext(),
-                                R.drawable.alive
-                            )
-                        )
-                        "Dead" -> ivCircleDetails.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                requireContext(),
-                                R.drawable.dead
-                            )
-                        )
-                        else -> ivCircleDetails.setImageDrawable(
-                            AppCompatResources.getDrawable(
-                                requireContext(),
-                                R.drawable.unknown
-                            )
-                        )
-                    }
+                    setStatusPicture(it.status, ivCircleDetails)
                     tvGenderDetails.text = it.gender
                     tvOriginDetails.text = it.origin.name
                     tvLocationDetails.text = it.location.name
@@ -101,6 +86,29 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
                     }
                 }
             }
+        }
+    }
+
+    private fun setStatusPicture(status: String, view: ImageView) {
+        when (status.trim()) {
+            "Alive" -> view.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    requireContext(),
+                    R.drawable.alive
+                )
+            )
+            "Dead" -> view.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    requireContext(),
+                    R.drawable.dead
+                )
+            )
+            else -> view.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    requireContext(),
+                    R.drawable.unknown
+                )
+            )
         }
     }
 

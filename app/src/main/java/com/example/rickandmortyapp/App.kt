@@ -5,32 +5,28 @@ import android.content.Context
 import android.net.ConnectivityManager
 import android.net.NetworkCapabilities
 import android.os.Build
-import com.example.rickandmortyapp.data.network.CacheInterceptor
 import com.example.rickandmortyapp.data.network.RetrofitModule
-import okhttp3.Cache
+import com.example.rickandmortyapp.di.AppComponent
+import com.example.rickandmortyapp.di.AppModule
+import com.example.rickandmortyapp.di.DaggerAppComponent
 import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import java.io.File
+import javax.inject.Inject
+
 
 class App : Application() {
 
-    private val client by lazy {
-        OkHttpClient().newBuilder()
-            .cache(
-                Cache(
-                    directory = File(cacheDir, "http_cache"),
-                    maxSize = 50L * 1024L * 1024L
-                )
-            )
-            .addNetworkInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-            .addInterceptor(CacheInterceptor())
-            .build()
-    }
+    lateinit var appComponent: AppComponent
 
-    val retrofit by lazy { RetrofitModule(client) }
+    @Inject
+    lateinit var client: OkHttpClient
+
+    @Inject
+    lateinit var retrofit: RetrofitModule
 
     override fun onCreate() {
         super.onCreate()
+        appComponent = DaggerAppComponent.builder().appModule(AppModule(this)).build()
+        appComponent.injectApp(this)
         instance = this
     }
 
