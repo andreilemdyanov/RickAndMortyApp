@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?attr/colorPrimary">
+    android:background="?attr/colorPrimary"
+    android:clickable="true"
+    android:focusable="true">
 
     <ImageView
         android:id="@+id/iv_avatar_details"
         android:layout_width="match_parent"
         android:layout_height="430dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/rick"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/rick" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -60,10 +62,10 @@
         android:layout_width="@dimen/circle_size"
         android:layout_height="@dimen/circle_size"
         android:layout_marginStart="16dp"
-        android:src="@drawable/alive"
         app:layout_constraintBottom_toBottomOf="@id/tv_status_details"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tv_status_details" />
+        app:layout_constraintTop_toTopOf="@id/tv_status_details"
+        tools:src="@drawable/alive" />
 
     <TextView
         android:id="@+id/tv_status_details"

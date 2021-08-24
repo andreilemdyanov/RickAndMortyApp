@@ -97,11 +97,6 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
         disposable.dispose()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        disposable.dispose()
-    }
-
     override fun onDetach() {
         super.onDetach()
         clickListener = null

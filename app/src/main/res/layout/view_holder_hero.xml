@@ -39,10 +39,10 @@
             android:layout_width="@dimen/circle_size"
             android:layout_height="@dimen/circle_size"
             android:layout_marginStart="@dimen/small_margin"
-            android:src="@drawable/alive"
             app:layout_constraintBottom_toBottomOf="@id/tv_status"
             app:layout_constraintStart_toEndOf="@id/iv_avatar"
-            app:layout_constraintTop_toTopOf="@id/tv_status" />
+            app:layout_constraintTop_toTopOf="@id/tv_status"
+            tools:src="@drawable/alive" />
 
         <TextView
             android:id="@+id/tv_status"

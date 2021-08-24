@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), FragmentCharacterList.ClickListener {
 
     override fun onHeroDetailsClick(hero: Hero) {
         supportFragmentManager.beginTransaction()
-            .replace(
+            .add(
                 R.id.fragment_container,
                 FragmentCharacterDetails.newInstance(hero)
             )
