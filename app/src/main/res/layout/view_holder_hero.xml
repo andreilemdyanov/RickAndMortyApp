@@ -57,14 +57,14 @@
 
         <TextView
             android:id="@+id/tv_location_label"
-            style="@style/TextLabel"
+            style="@style/TextLabelViewHolder"
             android:text="@string/location_label"
             app:layout_constraintStart_toEndOf="@id/iv_avatar"
             app:layout_constraintTop_toBottomOf="@id/tv_status" />
 
         <TextView
             android:id="@+id/tv_location"
-            style="@style/NormalText"
+            style="@style/NormalTextViewHolder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_avatar"
             app:layout_constraintTop_toBottomOf="@id/tv_location_label"
@@ -72,14 +72,14 @@
 
         <TextView
             android:id="@+id/tv_seen_label"
-            style="@style/TextLabel"
+            style="@style/TextLabelViewHolder"
             android:text="@string/seen_label"
             app:layout_constraintStart_toEndOf="@id/iv_avatar"
             app:layout_constraintTop_toBottomOf="@id/tv_location" />
 
         <TextView
             android:id="@+id/tv_seen"
-            style="@style/NormalText"
+            style="@style/NormalTextViewHolder"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/iv_avatar"
             app:layout_constraintTop_toBottomOf="@id/tv_seen_label"
