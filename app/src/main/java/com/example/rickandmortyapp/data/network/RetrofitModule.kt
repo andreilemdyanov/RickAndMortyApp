@@ -8,7 +8,6 @@ import kotlinx.serialization.json.Json
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.create
 
 class RetrofitModule(client: OkHttpClient) {
@@ -19,7 +18,6 @@ class RetrofitModule(client: OkHttpClient) {
 
     @Suppress("EXPERIMENTAL_API_USAGE")
     private val retrofit: Retrofit = Retrofit.Builder()
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .baseUrl("https://rickandmortyapi.com/api/")
         .client(client)
         .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))

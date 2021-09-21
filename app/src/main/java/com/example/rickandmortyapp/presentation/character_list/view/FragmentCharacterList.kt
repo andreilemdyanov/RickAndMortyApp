@@ -7,6 +7,7 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
@@ -18,21 +19,21 @@ import com.example.rickandmortyapp.databinding.FragmentCharacterListBinding
 import com.example.rickandmortyapp.extensions.dpToIntPx
 import com.example.rickandmortyapp.presentation.character_list.viewmodel.CharacterListVMFactory
 import com.example.rickandmortyapp.presentation.character_list.viewmodel.HeroesViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import kotlinx.coroutines.InternalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
 
     private var clickListener: ClickListener? = null
     private val binding by viewBinding(FragmentCharacterListBinding::bind)
+
     @Inject
     lateinit var viewModelFactory: CharacterListVMFactory
     lateinit var viewModel: HeroesViewModel
     private val adapter by lazy { HeroesAdapter(clickListenerItem) }
     private var orientationLand: Boolean = false
-    private val disposable = CompositeDisposable()
 
     private val clickListenerItem = { hero: Hero ->
         binding.rvCharacter.let {
@@ -71,24 +72,19 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
         }
     }
 
+    @OptIn(InternalCoroutinesApi::class)
     override fun onResume() {
         super.onResume()
-        disposable.add(viewModel.heroes
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
+        viewModel.viewModelScope.launch {
+            viewModel.heroes.collectLatest {
                 adapter.submitData(lifecycle, it)
-            })
+            }
+        }
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
         orientationLand = newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE
-    }
-
-    override fun onPause() {
-        super.onPause()
-        disposable.dispose()
     }
 
     override fun onDetach() {

@@ -1,18 +1,18 @@
 package com.example.rickandmortyapp.data.network
 
+import androidx.paging.PagingSource
 import androidx.paging.PagingState
-import androidx.paging.rxjava2.RxPagingSource
 import com.example.rickandmortyapp.data.model.Hero
-import com.example.rickandmortyapp.data.model.Heroes
 import com.example.rickandmortyapp.data.network.api.EpisodeApi
 import com.example.rickandmortyapp.data.network.api.HeroesApi
-import com.example.rickandmortyapp.data.network.model.toHeroes
-import io.reactivex.Observable
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
+import com.example.rickandmortyapp.data.network.model.toHero
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 
 class HeroesPageSource(private val heroesApi: HeroesApi, private val episodeApi: EpisodeApi) :
-    RxPagingSource<Int, Hero>() {
+    PagingSource<Int, Hero>() {
 
     override fun getRefreshKey(state: PagingState<Int, Hero>): Int? {
         val anchorPosition = state.anchorPosition ?: return null
@@ -20,37 +20,30 @@ class HeroesPageSource(private val heroesApi: HeroesApi, private val episodeApi:
         return page.prevKey?.plus(1) ?: page.nextKey?.minus(1)
     }
 
-    override fun loadSingle(params: LoadParams<Int>): Single<LoadResult<Int, Hero>> {
+    override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Hero> {
         val page: Int = params.key ?: 1
+        val pageSize: Int = params.loadSize.coerceAtMost(20)
 
-        val episodes = heroesApi.fetchResultsRx(page)
-            .map { it.toHeroes() }
-            .flatMap { Observable.fromIterable(it.list) }
-            .flatMap {
-                episodeApi.getEpisode(it.firstEpisode.substringAfterLast("/").toInt())
-                    .toObservable()
+        val heroesResponse = heroesApi.fetchResults(page)
+
+        return if (heroesResponse.isSuccessful) {
+            val characters = checkNotNull(heroesResponse.body()).results.map {
+                it.toHero()
+            }.map {
+                withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
+                    it.copy(
+                        firstEpisode = episodeApi.getEpisode(
+                            it.firstEpisode.substringAfterLast("/").toInt()
+                        ).name
+                    )
+                }
             }
+            val nextKey = if (characters.size < pageSize) null else page + 1
+            val prevKey = if (page == 1) null else page - 1
+            LoadResult.Page(characters, prevKey, nextKey)
+        } else {
+            LoadResult.Error(HttpException(heroesResponse))
+        }
 
-        val heroes = heroesApi.fetchResultsRx(page)
-            .map { it.toHeroes() }
-            .flatMap { Observable.fromIterable(it.list) }
-
-        val result = heroes.zipWith(episodes) { one, two -> one.copy(firstEpisode = two.name) }
-            .subscribeOn(Schedulers.io())
-
-        return Single.fromObservable(result.toList().toObservable()
-            .zipWith(heroesApi.fetchResultsRx(page))
-            { one, two -> Heroes(two.toHeroes().pagesCount, one) }
-            .map { toLoadResult(it, page) }
-            .onErrorReturn { LoadResult.Error(it) }
-            .subscribeOn(Schedulers.io()))
-    }
-
-    private fun toLoadResult(heroes: Heroes, page: Int): LoadResult<Int, Hero> {
-        return LoadResult.Page(
-            data = heroes.list,
-            prevKey = if (page == 1) null else page - 1,
-            nextKey = if (page == heroes.pagesCount) null else page + 1
-        )
     }
 }

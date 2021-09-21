@@ -18,10 +18,6 @@ import com.example.rickandmortyapp.data.model.Hero
 import com.example.rickandmortyapp.databinding.FragmentCharacterDetailsBinding
 import com.example.rickandmortyapp.presentation.character_details.viewmodel.CharacterDetailsVMFactory
 import com.example.rickandmortyapp.presentation.character_details.viewmodel.HeroesDetailsViewModel
-import com.google.android.material.snackbar.Snackbar
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
 class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
@@ -32,7 +28,6 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
     @Inject
     lateinit var repository: HeroesRepository
     lateinit var viewModel: HeroesDetailsViewModel
-    private val disposable = CompositeDisposable()
 
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,25 +39,11 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
             getParcelable<Hero>(HERO)?.let {
                 if (it.location.url.isNotBlank()) {
                     viewModelFactory = CharacterDetailsVMFactory(
-                        repository, it.location.url.substringAfterLast("/").toInt()
+                        repository
                     )
                     viewModel = ViewModelProvider(this@FragmentCharacterDetails, viewModelFactory)
                         .get(HeroesDetailsViewModel::class.java)
-                    disposable.add(
-                        viewModel.location
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe({ location ->
-                                binding.tvDimensionDetails.text = location.dimension
-                            }, { th ->
-                                Snackbar.make(
-                                    requireContext(),
-                                    view,
-                                    th.localizedMessage.toString(),
-                                    Snackbar.LENGTH_LONG
-                                ).show()
-                            })
-                    )
+                    viewModel.getLocation(it.location.url.substringAfterLast("/").toInt())
                 }
                 with(binding) {
                     tvNameDetails.text = it.name
@@ -118,9 +99,11 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
         enterTransition = inflater.inflateTransition(R.transition.slide_right)
     }
 
-    override fun onPause() {
-        super.onPause()
-        disposable.dispose()
+    override fun onStart() {
+        super.onStart()
+        viewModel.location.observe(viewLifecycleOwner) {
+            binding.tvDimensionDetails.text = it.dimension
+        }
     }
 
     companion object {
