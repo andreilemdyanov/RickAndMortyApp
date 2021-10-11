@@ -23,11 +23,18 @@ import javax.inject.Inject
 class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
 
     private val binding by viewBinding(FragmentCharacterDetailsBinding::bind)
-    lateinit var viewModelFactory: CharacterDetailsVMFactory
+    private val viewModelFactory by lazy {
+        CharacterDetailsVMFactory(
+            repository
+        )
+    }
 
     @Inject
     lateinit var repository: HeroesRepository
-    lateinit var viewModel: HeroesDetailsViewModel
+    val viewModel by lazy {
+        ViewModelProvider(this@FragmentCharacterDetails, viewModelFactory)
+            .get(HeroesDetailsViewModel::class.java)
+    }
 
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -38,11 +45,6 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
         arguments?.apply {
             getParcelable<Hero>(HERO)?.let {
                 if (it.location.url.isNotBlank()) {
-                    viewModelFactory = CharacterDetailsVMFactory(
-                        repository
-                    )
-                    viewModel = ViewModelProvider(this@FragmentCharacterDetails, viewModelFactory)
-                        .get(HeroesDetailsViewModel::class.java)
                     viewModel.getLocation(it.location.url.substringAfterLast("/").toInt())
                 }
                 with(binding) {
