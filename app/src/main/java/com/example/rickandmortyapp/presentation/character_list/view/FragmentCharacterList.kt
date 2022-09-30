@@ -72,7 +72,6 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
         }
     }
 
-    @OptIn(InternalCoroutinesApi::class)
     override fun onResume() {
         super.onResume()
         viewModel.viewModelScope.launch {
