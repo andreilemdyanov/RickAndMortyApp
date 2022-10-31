@@ -13,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.example.rickandmortyapp.App
 import com.example.rickandmortyapp.MainActivity
 import com.example.rickandmortyapp.R
-import com.example.rickandmortyapp.data.HeroesRepository
 import com.example.rickandmortyapp.data.model.Hero
 import com.example.rickandmortyapp.databinding.FragmentCharacterDetailsBinding
 import com.example.rickandmortyapp.presentation.character_details.viewmodel.CharacterDetailsVMFactory
@@ -23,14 +22,9 @@ import javax.inject.Inject
 class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
 
     private val binding by viewBinding(FragmentCharacterDetailsBinding::bind)
-    private val viewModelFactory by lazy {
-        CharacterDetailsVMFactory(
-            repository
-        )
-    }
 
     @Inject
-    lateinit var repository: HeroesRepository
+    lateinit var viewModelFactory: CharacterDetailsVMFactory
     val viewModel by lazy {
         ViewModelProvider(this@FragmentCharacterDetails, viewModelFactory)
             .get(HeroesDetailsViewModel::class.java)
@@ -73,26 +67,17 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
     }
 
     private fun setStatusPicture(status: String, view: ImageView) {
-        when (status.trim()) {
-            "Alive" -> view.setImageDrawable(
-                AppCompatResources.getDrawable(
-                    requireContext(),
-                    R.drawable.alive
-                )
-            )
-            "Dead" -> view.setImageDrawable(
-                AppCompatResources.getDrawable(
-                    requireContext(),
-                    R.drawable.dead
-                )
-            )
-            else -> view.setImageDrawable(
-                AppCompatResources.getDrawable(
-                    requireContext(),
-                    R.drawable.unknown
-                )
-            )
+        val resource = when (status.trim()) {
+            "Alive" -> R.drawable.alive
+            "Dead" -> R.drawable.dead
+            else -> R.drawable.unknown
         }
+        view.setImageDrawable(
+            AppCompatResources.getDrawable(
+                requireContext(),
+                resource
+            )
+        )
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

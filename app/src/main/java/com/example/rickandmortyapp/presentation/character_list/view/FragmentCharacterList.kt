@@ -19,7 +19,6 @@ import com.example.rickandmortyapp.databinding.FragmentCharacterListBinding
 import com.example.rickandmortyapp.extensions.dpToIntPx
 import com.example.rickandmortyapp.presentation.character_list.viewmodel.CharacterListVMFactory
 import com.example.rickandmortyapp.presentation.character_list.viewmodel.HeroesViewModel
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -49,7 +48,8 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        (requireContext().applicationContext as App).appComponent.injectFragmentCharacterList(this)
+        val context = requireContext()
+        (context.applicationContext as App).appComponent.injectFragmentCharacterList(this)
         viewModel = ViewModelProvider(this, viewModelFactory)
             .get(HeroesViewModel::class.java)
         with(binding) {
@@ -58,16 +58,17 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
                 footer = HeroesLoaderStateAdapter()
             )
             val manager =
-                GridLayoutManager(requireContext(), resources.getInteger(R.integer.grid_count))
+                GridLayoutManager(context, resources.getInteger(R.integer.grid_count))
             rvCharacter.layoutManager = manager
             rvCharacter.addItemDecoration(
-                if (orientationLand) LinearSpacingItemDecoration(requireContext().dpToIntPx(8)) else GridSpacingItemDecoration(
-                    requireContext().dpToIntPx(8)
-                )
+                if (orientationLand)
+                    LinearSpacingItemDecoration(context.dpToIntPx(8))
+                else
+                    GridSpacingItemDecoration(context.dpToIntPx(8))
             )
             adapter.addLoadStateListener { state: CombinedLoadStates ->
                 rvCharacter.isVisible = state.refresh != LoadState.Loading
-                progress.isVisible = state.refresh == LoadState.Loading
+                pbProgress.isVisible = state.refresh == LoadState.Loading
             }
         }
     }
