@@ -1,6 +1,7 @@
 package com.example.rickandmortyapp.data.network.model
 
 import com.example.rickandmortyapp.data.model.LocationDetail
+import com.example.rickandmortyapp.data.network.Transformable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -20,6 +21,7 @@ class LocationDetailResponse(
     val url: String,
     @SerialName("created")
     val created: String
-)
-
-fun LocationDetailResponse.toLocationDetail() = LocationDetail(name, url, dimension)
+) : Transformable<LocationDetail> {
+    override fun transform() =
+        LocationDetail(name, url, dimension)
+}

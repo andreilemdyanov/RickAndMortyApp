@@ -5,7 +5,6 @@ import androidx.paging.PagingState
 import com.example.rickandmortyapp.data.model.Hero
 import com.example.rickandmortyapp.data.network.api.EpisodeApi
 import com.example.rickandmortyapp.data.network.api.HeroesApi
-import com.example.rickandmortyapp.data.network.model.toHero
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -28,7 +27,7 @@ class HeroesPageSource(private val heroesApi: HeroesApi, private val episodeApi:
 
         return if (heroesResponse.isSuccessful) {
             val characters = checkNotNull(heroesResponse.body()).results.map {
-                it.toHero()
+                it.transform()
             }.map {
                 withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
                     it.copy(

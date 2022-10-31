@@ -1,6 +1,7 @@
 package com.example.rickandmortyapp.data.network.model
 
 import com.example.rickandmortyapp.data.model.Heroes
+import com.example.rickandmortyapp.data.network.Transformable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,8 +11,9 @@ data class HeroesResponse(
     val info: InfoResponse,
     @SerialName("results")
     val results: List<CharacterResponse>
-)
-
-fun HeroesResponse.toHeroes() =
-    Heroes(
-        info.count, results.map { it.toHero() })
+) : Transformable<Heroes> {
+    override fun transform() =
+        Heroes(
+            pagesCount = info.count,
+            list = results.map { it.transform() })
+}

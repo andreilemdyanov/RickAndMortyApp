@@ -1,6 +1,7 @@
 package com.example.rickandmortyapp.data.network.model
 
 import com.example.rickandmortyapp.data.model.Hero
+import com.example.rickandmortyapp.data.network.Transformable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -30,21 +31,22 @@ data class CharacterResponse(
     val type: String,
     @SerialName("url")
     val url: String
-)
+) : Transformable<Hero> {
+    override fun transform() =
+        Hero(
+            created = created,
+            firstEpisode = episode.first(),
+            episodesCount = episode.size,
+            gender = gender,
+            id = id,
+            image = image,
+            location = location.transform(),
+            name = name,
+            origin = origin.transform(),
+            species = species,
+            status = status,
+            type = type,
+            url = url
+        )
 
-fun CharacterResponse.toHero() =
-    Hero(
-        created = created,
-        firstEpisode = episode.first(),
-        episodesCount = episode.size,
-        gender = gender,
-        id = id,
-        image = image,
-        location = location.toLocation(),
-        name = name,
-        origin = origin.toOrigin(),
-        species = species,
-        status = status,
-        type = type,
-        url = url
-    )
+}

@@ -6,7 +6,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.rickandmortyapp.data.HeroesRepository
 import com.example.rickandmortyapp.data.model.LocationDetail
-import com.example.rickandmortyapp.data.network.model.toLocationDetail
 import kotlinx.coroutines.launch
 
 class HeroesDetailsViewModel(private val repo: HeroesRepository) : ViewModel() {
@@ -16,7 +15,7 @@ class HeroesDetailsViewModel(private val repo: HeroesRepository) : ViewModel() {
 
     fun getLocation(id: Int) {
         viewModelScope.launch {
-            _location.postValue(repo.getLocation(id).toLocationDetail())
+            _location.postValue(repo.getLocation(id))
         }
     }
 }

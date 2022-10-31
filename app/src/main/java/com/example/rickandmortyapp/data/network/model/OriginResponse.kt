@@ -1,6 +1,7 @@
 package com.example.rickandmortyapp.data.network.model
 
 import com.example.rickandmortyapp.data.model.Origin
+import com.example.rickandmortyapp.data.network.Transformable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -10,6 +11,7 @@ data class OriginResponse(
     val name: String,
     @SerialName("url")
     val url: String
-)
-
-fun OriginResponse.toOrigin() = Origin(name, url)
+) : Transformable<Origin> {
+    override fun transform() =
+        Origin(name, url)
+}

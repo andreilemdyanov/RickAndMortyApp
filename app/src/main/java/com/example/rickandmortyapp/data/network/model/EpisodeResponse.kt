@@ -1,6 +1,7 @@
 package com.example.rickandmortyapp.data.network.model
 
 import com.example.rickandmortyapp.data.model.Episode
+import com.example.rickandmortyapp.data.network.Transformable
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -20,6 +21,7 @@ data class EpisodeResponse(
     val url: String,
     @SerialName("created")
     val created: String
-)
-
-fun EpisodeResponse.toEpisode() = Episode(id, name, url)
+) : Transformable<Episode> {
+    override fun transform() =
+        Episode(id, name, url)
+}
