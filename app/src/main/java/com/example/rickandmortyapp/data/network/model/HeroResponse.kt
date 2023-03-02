@@ -45,7 +45,7 @@ data class CharacterResponse(
             origin = origin.transform(),
             species = species,
             status = status,
-            type = type,
+            type = type.ifBlank { "unknown" },
             url = url
         )
 

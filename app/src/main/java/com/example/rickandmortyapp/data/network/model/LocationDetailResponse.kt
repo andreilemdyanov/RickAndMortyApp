@@ -23,5 +23,5 @@ class LocationDetailResponse(
     val created: String
 ) : Transformable<LocationDetail> {
     override fun transform() =
-        LocationDetail(name, url, dimension)
+        LocationDetail(name, url, dimension.ifBlank { "unknown" })
 }

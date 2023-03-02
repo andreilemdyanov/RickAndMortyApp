@@ -7,7 +7,6 @@ import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.viewModelScope
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
 import androidx.recyclerview.widget.GridLayoutManager
@@ -19,8 +18,6 @@ import com.example.rickandmortyapp.databinding.FragmentCharacterListBinding
 import com.example.rickandmortyapp.extensions.dpToIntPx
 import com.example.rickandmortyapp.presentation.character_list.viewmodel.CharacterListVMFactory
 import com.example.rickandmortyapp.presentation.character_list.viewmodel.HeroesViewModel
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
@@ -30,7 +27,7 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
 
     @Inject
     lateinit var viewModelFactory: CharacterListVMFactory
-    lateinit var viewModel: HeroesViewModel
+    private lateinit var viewModel: HeroesViewModel
     private val adapter by lazy { HeroesAdapter(clickListenerItem) }
     private var orientationLand: Boolean = false
 
@@ -57,9 +54,7 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
                 header = HeroesLoaderStateAdapter(),
                 footer = HeroesLoaderStateAdapter()
             )
-            val manager =
-                GridLayoutManager(context, resources.getInteger(R.integer.grid_count))
-            rvCharacter.layoutManager = manager
+            rvCharacter.layoutManager = GridLayoutManager(context, resources.getInteger(R.integer.grid_count))
             rvCharacter.addItemDecoration(
                 if (orientationLand)
                     LinearSpacingItemDecoration(context.dpToIntPx(8))
@@ -71,15 +66,7 @@ class FragmentCharacterList : Fragment(R.layout.fragment_character_list) {
                 pbProgress.isVisible = state.refresh == LoadState.Loading
             }
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.viewModelScope.launch {
-            viewModel.heroes.collectLatest {
-                adapter.submitData(lifecycle, it)
-            }
-        }
+        viewModel.setData(lifecycle, adapter)
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {

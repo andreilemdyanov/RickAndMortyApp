@@ -9,7 +9,6 @@ import com.example.rickandmortyapp.data.network.HeroesPageSource
 import com.example.rickandmortyapp.data.network.api.EpisodeApi
 import com.example.rickandmortyapp.data.network.api.HeroesApi
 import com.example.rickandmortyapp.data.network.api.LocationApi
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 
 class HeroesRepository(
@@ -18,7 +17,6 @@ class HeroesRepository(
     private val locationApi: LocationApi
 ) {
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     fun getHeroes(): Flow<PagingData<Hero>> {
         return Pager(PagingConfig(20),
             pagingSourceFactory = { HeroesPageSource(charactersApi, episodeApi) }

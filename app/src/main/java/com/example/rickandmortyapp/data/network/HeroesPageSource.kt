@@ -5,9 +5,6 @@ import androidx.paging.PagingState
 import com.example.rickandmortyapp.data.model.Hero
 import com.example.rickandmortyapp.data.network.api.EpisodeApi
 import com.example.rickandmortyapp.data.network.api.HeroesApi
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import retrofit2.HttpException
 
 class HeroesPageSource(private val heroesApi: HeroesApi, private val episodeApi: EpisodeApi) :
@@ -26,17 +23,17 @@ class HeroesPageSource(private val heroesApi: HeroesApi, private val episodeApi:
         val heroesResponse = heroesApi.fetchResults(page)
 
         return if (heroesResponse.isSuccessful) {
-            val characters = checkNotNull(heroesResponse.body()).results.map {
-                it.transform()
-            }.map {
-                withContext(CoroutineScope(Dispatchers.IO).coroutineContext) {
-                    it.copy(
-                        firstEpisode = episodeApi.getEpisode(
-                            it.firstEpisode.substringAfterLast("/").toInt()
-                        ).name
+            val characters = checkNotNull(heroesResponse.body())
+                .results
+                .map { characterResponse ->
+                    characterResponse.transform()
+                }.map { hero ->
+                    val episode = episodeApi.getEpisode(
+                        hero.firstEpisode.substringAfterLast("/").toInt()
                     )
+                    hero.copy(firstEpisode = episode.name)
                 }
-            }
+
             val nextKey = if (characters.size < pageSize) null else page + 1
             val prevKey = if (page == 1) null else page - 1
             LoadResult.Page(characters, prevKey, nextKey)

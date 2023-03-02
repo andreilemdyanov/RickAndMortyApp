@@ -55,8 +55,7 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
                     tvGenderDetails.text = it.gender
                     tvOriginDetails.text = it.origin.name
                     tvLocationDetails.text = it.location.name
-                    tvTypeDetails.text = it.type.ifBlank { "unknown" }
-                    tvDimensionDetails.text.ifBlank { "unknown" }
+                    tvTypeDetails.text = it.type
                     tvEpisodesDetails.text = it.episodesCount.toString()
                     btnBackDetails.setOnClickListener {
                         (activity as MainActivity).onBackClick()
