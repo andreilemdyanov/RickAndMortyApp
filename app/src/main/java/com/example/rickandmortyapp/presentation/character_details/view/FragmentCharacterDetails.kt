@@ -30,37 +30,52 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
             .get(HeroesDetailsViewModel::class.java)
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        val inflater = TransitionInflater.from(requireContext())
+        enterTransition = inflater.inflateTransition(R.transition.slide_right)
+    }
+
+    override fun onStart() {
+        super.onStart()
+        viewModel.location.observe(viewLifecycleOwner) {
+            binding.tvDimensionDetails.text = it.dimension
+        }
+    }
+
     @SuppressLint("CheckResult")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireContext().applicationContext as App).appComponent.injectFragmentCharacterDetails(
             this
         )
-        arguments?.apply {
-            getParcelable<Hero>(HERO)?.let {
-                if (it.location.url.isNotBlank()) {
-                    viewModel.getLocation(it.location.url.substringAfterLast("/").toInt())
-                }
-                with(binding) {
-                    tvNameDetails.text = it.name
-                    Glide.with(requireContext())
-                        .load(it.image)
-                        .placeholder(R.drawable.place_holder)
-                        .centerCrop()
-                        .into(ivAvatarDetails)
+        val hero = arguments?.getParcelable(HERO) ?: Hero()
 
-                    tvStatusDetails.text =
-                        requireContext().getString(R.string.status, it.status, it.species)
-                    setStatusPicture(it.status, ivCircleDetails)
-                    tvGenderDetails.text = it.gender
-                    tvOriginDetails.text = it.origin.name
-                    tvLocationDetails.text = it.location.name
-                    tvTypeDetails.text = it.type
-                    tvEpisodesDetails.text = it.episodesCount.toString()
-                    btnBackDetails.setOnClickListener {
-                        (activity as MainActivity).onBackClick()
-                    }
-                }
+        if (hero.location.url.isNotBlank()) {
+            viewModel.getLocation(
+                hero.location.url.substringAfterLast("/").toInt()
+            )
+        }
+
+        with(binding) {
+            tvNameDetails.text = hero.name
+            Glide.with(requireContext())
+                .load(hero.image)
+                .placeholder(R.drawable.place_holder)
+                .centerCrop()
+                .into(ivAvatarDetails)
+
+            tvStatusDetails.text =
+                requireContext().getString(R.string.status, hero.status, hero.species)
+            setStatusPicture(hero.status, ivCircleDetails)
+            tvGenderDetails.text = hero.gender
+            tvOriginDetails.text = hero.origin.name
+            tvLocationDetails.text = hero.location.name
+            tvTypeDetails.text = hero.type
+            tvEpisodesDetails.text = hero.episodesCount.toString()
+
+            btnBackDetails.setOnClickListener {
+                (activity as MainActivity).onBackClick()
             }
         }
     }
@@ -77,19 +92,6 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
                 resource
             )
         )
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        val inflater = TransitionInflater.from(requireContext())
-        enterTransition = inflater.inflateTransition(R.transition.slide_right)
-    }
-
-    override fun onStart() {
-        super.onStart()
-        viewModel.location.observe(viewLifecycleOwner) {
-            binding.tvDimensionDetails.text = it.dimension
-        }
     }
 
     companion object {

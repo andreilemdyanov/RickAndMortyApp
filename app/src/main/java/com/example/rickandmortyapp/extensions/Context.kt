@@ -10,3 +10,6 @@ fun Context.dpToIntPx(dp: Int): Int {
         this.resources.displayMetrics
     ).toInt()
 }
+
+const val EMPTY_STRING = ""
+const val EMPTY_INT = 0
