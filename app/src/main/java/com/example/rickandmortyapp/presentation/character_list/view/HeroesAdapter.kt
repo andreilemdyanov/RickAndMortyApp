@@ -30,12 +30,12 @@ class HeroesAdapter(private val clickListenerItem: (Hero) -> Unit?) :
 class HeroViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private val context = itemView.context
-    private val avatar = itemView.findViewById<ImageView>(R.id.iv_avatar)
-    private val name = itemView.findViewById<TextView>(R.id.tv_name)
-    private val status = itemView.findViewById<TextView>(R.id.tv_status)
-    private val location = itemView.findViewById<TextView>(R.id.tv_location)
-    private val seen = itemView.findViewById<TextView>(R.id.tv_seen)
-    private val circle = itemView.findViewById<ImageView>(R.id.iv_circle)
+    private val ivAvatar = itemView.findViewById<ImageView>(R.id.iv_avatar)
+    private val tvName = itemView.findViewById<TextView>(R.id.tv_name)
+    private val tvStatus = itemView.findViewById<TextView>(R.id.tv_status)
+    private val tvLocation = itemView.findViewById<TextView>(R.id.tv_location)
+    private val tvSeen = itemView.findViewById<TextView>(R.id.tv_seen)
+    private val ivCircle = itemView.findViewById<ImageView>(R.id.iv_circle)
 
 
     fun bind(hero: Hero?) {
@@ -44,33 +44,23 @@ class HeroViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
                 .load(it.image)
                 .placeholder(R.drawable.place_holder)
                 .centerCrop()
-                .into(avatar)
+                .into(ivAvatar)
 
-            name.text = it.name
-            status.text = context.getString(R.string.status, it.status, it.species)
-            location.text = it.location.name
-            seen.text = it.firstEpisode
-//            Log.d("HeroViewHolder", "${it.id} ${it.status}")
-            when (it.status.trim()) {
-                "Alive" -> circle.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        context,
-                        R.drawable.alive
-                    )
-                )
-                "Dead" -> circle.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        context,
-                        R.drawable.dead
-                    )
-                )
-                else -> circle.setImageDrawable(
-                    AppCompatResources.getDrawable(
-                        context,
-                        R.drawable.unknown
-                    )
-                )
+            tvName.text = it.name
+            tvStatus.text = context.getString(R.string.status, it.status, it.species)
+            tvLocation.text = it.location.name
+            tvSeen.text = it.firstEpisode
+            val status = when (it.status.trim()) {
+                "Alive" -> R.drawable.alive
+                "Dead" -> R.drawable.dead
+                else -> R.drawable.unknown
             }
+            ivCircle.setImageDrawable(
+                AppCompatResources.getDrawable(
+                    context,
+                    status
+                )
+            )
         }
     }
 }

@@ -9,5 +9,7 @@
     <string name="type_details_label">Type:</string>
     <string name="dimension_details_label">Dimension:</string>
     <string name="episodes_details_label">Episodes:</string>
+    <string name="desc_avatar">avatar</string>
+    <string name="desc_button_back">button back</string>
 
 </resources>

@@ -30,6 +30,7 @@
             android:id="@+id/iv_avatar_details"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:contentDescription="@string/desc_avatar"
             android:scaleType="centerCrop"
             app:layout_constraintDimensionRatio="1:1"
             app:layout_constraintEnd_toEndOf="parent"
@@ -45,7 +46,8 @@
             app:layout_constraintBottom_toBottomOf="@id/iv_avatar_details"
             app:layout_constraintEnd_toEndOf="@id/iv_avatar_details"
             app:layout_constraintStart_toStartOf="@id/iv_avatar_details"
-            app:layout_constraintTop_toTopOf="@id/iv_avatar_details" />
+            app:layout_constraintTop_toTopOf="@id/iv_avatar_details"
+            tools:ignore="ContentDescription" />
 
         <ImageButton
             android:id="@+id/btn_back_details"
@@ -55,6 +57,7 @@
             android:layout_marginTop="@dimen/small_margin"
             android:background="@drawable/grey_circle"
             android:clickable="true"
+            android:contentDescription="@string/desc_button_back"
             android:focusable="true"
             android:src="@drawable/abc_ic_ab_back_material"
             app:layout_constraintStart_toStartOf="parent"
@@ -82,6 +85,7 @@
             app:layout_constraintBottom_toBottomOf="@id/tv_status_details"
             app:layout_constraintStart_toStartOf="@id/gl_start_line"
             app:layout_constraintTop_toTopOf="@id/tv_status_details"
+            tools:ignore="ContentDescription"
             tools:src="@drawable/alive" />
 
         <TextView

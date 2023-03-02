@@ -20,11 +20,18 @@
         <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/layout/item_progress.xml" value="0.38645833333333335" />
         <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/layout/view_holder_character.xml" value="0.43802083333333336" />
         <entry key="..\:/Projects/RickAndMortyApp/app/src/main/res/layout/view_holder_hero.xml" value="0.38645833333333335" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/RickAndMortyApp/app/src/main/res/drawable/alive.xml" value="0.205" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/RickAndMortyApp/app/src/main/res/drawable/dead.xml" value="0.205" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/RickAndMortyApp/app/src/main/res/drawable/gradient.xml" value="0.1205" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/RickAndMortyApp/app/src/main/res/drawable/unknown.xml" value="0.129" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/RickAndMortyApp/app/src/main/res/layout-land/fragment_character_details.xml" value="0.1" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/RickAndMortyApp/app/src/main/res/layout/fragment_character_details.xml" value="0.1" />
+        <entry key="..\:/Users/Andrew/AndroidStudioProjects/RickAndMortyApp/app/src/main/res/layout/fragment_character_list.xml" value="0.1" />
         <entry key="..\:/Users/lucas_kein/.gradle/caches/transforms-3/06f1d27ee45f0c49fb4232bcacca0caa/transformed/appcompat-1.3.1/res/drawable/abc_ic_ab_back_material.xml" value="0.191" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

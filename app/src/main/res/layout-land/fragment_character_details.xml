@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorPrimary"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/b_start_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:barrierDirection="end"
+        app:barrierMargin="16dp"
+        app:constraint_referenced_ids="iv_avatar_details"
+        app:layout_constraintStart_toEndOf="@id/iv_avatar_details" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/gl_end_line"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="@dimen/normal_margin" />
+
+    <ImageView
+        android:id="@+id/iv_avatar_details"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/desc_avatar"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/rick" />
+
+
+    <ImageButton
+        android:id="@+id/btn_back_details"
+        android:layout_width="@dimen/btn_back_size"
+        android:layout_height="@dimen/btn_back_size"
+        android:layout_marginStart="@dimen/small_margin"
+        android:layout_marginTop="@dimen/small_margin"
+        android:background="@drawable/grey_circle"
+        android:clickable="true"
+        android:contentDescription="@string/desc_button_back"
+        android:focusable="true"
+        android:src="@drawable/abc_ic_ab_back_material"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/tv_name_details"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/small_margin"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?attr/colorOnPrimary"
+        android:textSize="@dimen/extra_large_text"
+        app:layout_constraintEnd_toEndOf="@id/gl_end_line"
+        app:layout_constraintStart_toStartOf="@id/b_start_line"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Adjudicator Rick" />
+
+
+    <ImageView
+        android:id="@+id/iv_circle_details"
+        android:layout_width="@dimen/circle_size"
+        android:layout_height="@dimen/circle_size"
+        app:layout_constraintBottom_toBottomOf="@id/tv_status_details"
+        app:layout_constraintStart_toStartOf="@id/b_start_line"
+        app:layout_constraintTop_toTopOf="@id/tv_status_details"
+        tools:ignore="ContentDescription"
+        tools:src="@drawable/alive" />
+
+    <TextView
+        android:id="@+id/tv_status_details"
+        style="@style/NormalTextDetails"
+        android:layout_marginStart="10dp"
+        android:layout_marginBottom="@dimen/extra_large_margin"
+        app:layout_constraintStart_toEndOf="@id/iv_circle_details"
+        app:layout_constraintTop_toBottomOf="@id/tv_name_details"
+        tools:text="Dead - Human" />
+
+    <TextView
+        android:id="@+id/tv_gender_label_details"
+        style="@style/TextLabelDetails"
+        android:layout_marginTop="@dimen/large_margin"
+        android:text="@string/gender_details_label"
+        app:layout_constraintStart_toStartOf="@id/b_start_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_status_details" />
+
+    <TextView
+        android:id="@+id/tv_gender_details"
+        style="@style/NormalTextDetails"
+        android:layout_marginTop="@dimen/large_margin"
+        app:layout_constraintEnd_toEndOf="@id/gl_end_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_status_details"
+        tools:text="Male" />
+
+    <TextView
+        android:id="@+id/tv_origin_label_details"
+        style="@style/TextLabelDetails"
+        android:layout_marginTop="@dimen/small_margin"
+        android:text="@string/origin_details_label"
+        app:layout_constraintStart_toStartOf="@id/b_start_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_gender_label_details" />
+
+    <TextView
+        android:id="@+id/tv_origin_details"
+        style="@style/NormalTextDetails"
+        android:layout_marginTop="@dimen/small_margin"
+        app:layout_constraintEnd_toEndOf="@id/gl_end_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_gender_details"
+        tools:text="Earth" />
+
+    <TextView
+        android:id="@+id/tv_location_label_details"
+        style="@style/TextLabelDetails"
+        android:layout_marginTop="@dimen/small_margin"
+        android:text="@string/location_details_label"
+        app:layout_constraintStart_toStartOf="@id/b_start_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_origin_label_details" />
+
+    <TextView
+        android:id="@+id/tv_location_details"
+        style="@style/NormalTextDetails"
+        android:layout_marginTop="@dimen/small_margin"
+        app:layout_constraintEnd_toEndOf="@id/gl_end_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_origin_details"
+        tools:text="Earth" />
+
+    <TextView
+        android:id="@+id/tv_type_label_details"
+        style="@style/TextLabelDetails"
+        android:layout_marginTop="@dimen/small_margin"
+        android:text="@string/type_details_label"
+        app:layout_constraintStart_toStartOf="@id/b_start_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_location_label_details" />
+
+    <TextView
+        android:id="@+id/tv_type_details"
+        style="@style/NormalTextDetails"
+        android:layout_marginTop="@dimen/small_margin"
+        app:layout_constraintEnd_toEndOf="@id/gl_end_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_location_details"
+        tools:text="Planet" />
+
+    <TextView
+        android:id="@+id/tv_dimension_label_details"
+        style="@style/TextLabelDetails"
+        android:layout_marginTop="@dimen/small_margin"
+        android:text="@string/dimension_details_label"
+        app:layout_constraintStart_toStartOf="@id/b_start_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_type_label_details" />
+
+    <TextView
+        android:id="@+id/tv_dimension_details"
+        style="@style/NormalTextDetails"
+        android:layout_marginTop="@dimen/small_margin"
+        app:layout_constraintEnd_toEndOf="@id/gl_end_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_type_details"
+        tools:text="Dimension C-137" />
+
+    <TextView
+        android:id="@+id/tv_episodes_label_details"
+        style="@style/TextLabelDetails"
+        android:layout_marginTop="@dimen/small_margin"
+        android:paddingBottom="@dimen/normal_margin"
+        android:text="@string/episodes_details_label"
+        app:layout_constraintStart_toStartOf="@id/b_start_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_dimension_label_details" />
+
+    <TextView
+        android:id="@+id/tv_episodes_details"
+        style="@style/NormalTextDetails"
+        android:layout_marginTop="@dimen/small_margin"
+        app:layout_constraintEnd_toEndOf="@id/gl_end_line"
+        app:layout_constraintTop_toBottomOf="@id/tv_dimension_details"
+        tools:text="3" />
+</androidx.constraintlayout.widget.ConstraintLayout>
