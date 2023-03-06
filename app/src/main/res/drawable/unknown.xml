@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
-    android:shape="oval"
-    >
+    android:shape="oval">
 
     <gradient
         android:centerX="-1"
-        android:type="sweep"
-        android:startColor="@color/red"
         android:endColor="@color/green"
-        />
+        android:startColor="@color/red"
+        android:type="sweep" />
 
 </shape>

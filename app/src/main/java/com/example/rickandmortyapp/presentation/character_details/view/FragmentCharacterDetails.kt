@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageView
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.transition.TransitionInflater
@@ -22,6 +21,9 @@ import javax.inject.Inject
 class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
 
     private val binding by viewBinding(FragmentCharacterDetailsBinding::bind)
+
+    @Inject
+    lateinit var resourceManager: ResourceManager
 
     @Inject
     lateinit var viewModelFactory: CharacterDetailsVMFactory
@@ -57,6 +59,10 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
             )
         }
 
+        render(binding, hero)
+    }
+
+    private fun render(binding: FragmentCharacterDetailsBinding, hero: Hero) {
         with(binding) {
             tvNameDetails.text = hero.name
             Glide.with(requireContext())
@@ -66,7 +72,7 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
                 .into(ivAvatarDetails)
 
             tvStatusDetails.text =
-                requireContext().getString(R.string.status, hero.status, hero.species)
+                resourceManager.string(R.string.status, hero.status, hero.species)
             setStatusPicture(hero.status, ivCircleDetails)
             tvGenderDetails.text = hero.gender
             tvOriginDetails.text = hero.origin.name
@@ -86,12 +92,7 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
             "Dead" -> R.drawable.dead
             else -> R.drawable.unknown
         }
-        view.setImageDrawable(
-            AppCompatResources.getDrawable(
-                requireContext(),
-                resource
-            )
-        )
+        view.setImageDrawable(resourceManager.drawable(resource))
     }
 
     companion object {
