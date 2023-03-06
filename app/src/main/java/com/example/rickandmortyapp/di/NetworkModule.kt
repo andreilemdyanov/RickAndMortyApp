@@ -15,7 +15,6 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
-import retrofit2.create
 import java.io.File
 
 @Module(includes = [AppModule::class])
@@ -24,9 +23,9 @@ class NetworkModule {
     @Provides
     fun provideRepository(retrofit: Retrofit): HeroesRepository {
         return HeroesRepository(
-            RetrofitModule(retrofit).heroesApi,
-            RetrofitModule(retrofit).episodeApi,
-            RetrofitModule(retrofit).locationApi
+            retrofit.create(HeroesApi::class.java),
+            retrofit.create(EpisodeApi::class.java),
+            retrofit.create(LocationApi::class.java)
         )
     }
 
@@ -50,7 +49,7 @@ class NetworkModule {
     }
 
     @Provides
-    fun provideretrofit(json: Json, client: OkHttpClient): Retrofit {
+    fun provideRetrofit(json: Json, client: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl("https://rickandmortyapi.com/api/")
             .client(client)
@@ -64,11 +63,5 @@ class NetworkModule {
             ignoreUnknownKeys = true
             coerceInputValues = true
         }
-    }
-
-    private class RetrofitModule(retrofit: Retrofit) {
-        val heroesApi: HeroesApi = retrofit.create()
-        val episodeApi: EpisodeApi = retrofit.create()
-        val locationApi: LocationApi = retrofit.create()
     }
 }

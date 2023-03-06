@@ -25,7 +25,7 @@ class FragmentCharacterDetails : Fragment(R.layout.fragment_character_details) {
 
     @Inject
     lateinit var viewModelFactory: CharacterDetailsVMFactory
-    val viewModel by lazy {
+    private val viewModel by lazy {
         ViewModelProvider(this@FragmentCharacterDetails, viewModelFactory)
             .get(HeroesDetailsViewModel::class.java)
     }
